@@ -14,14 +14,17 @@ fmt = logging.Formatter(
 
 def get_logger(logfile="mfileconv.log") -> logging.Logger:
     """Returns a configured logger"""
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.ERROR)
-    ch.setFormatter(fmt)
+    if not log.handlers:
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.ERROR)
+        ch.setFormatter(fmt)
 
-    fh = handlers.RotatingFileHandler(logfile, maxBytes=10**6, backupCount=10)
-    fh.setLevel(LOG_LEVEL_NUM)
-    fh.setFormatter(fmt)
+        fh = handlers.RotatingFileHandler(
+            logfile, maxBytes=10**6, backupCount=10
+        )
+        fh.setLevel(LOG_LEVEL_NUM)
+        fh.setFormatter(fmt)
 
-    log.addHandler(ch)
-    log.addHandler(fh)
+        log.addHandler(ch)
+        log.addHandler(fh)
     return log
